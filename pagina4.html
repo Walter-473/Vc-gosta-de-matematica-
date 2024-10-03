@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responda a Equação</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #242D50;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        .corner-button {
+            position: absolute;
+            font-size: 100px;
+            color: white;
+            text-decoration: none;
+        }
+
+        #minus {
+            top: 10px;
+            left: 10px;
+        }
+
+        #plus {
+            top: 10px;
+            right: 10px;
+        }
+
+        #multiply {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        #division-sign {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 100px;
+            color: white;
+        }
+
+        #oca {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        #response-message {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+        }
+
+        #questions-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            display: none;
+        }
+
+        input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        #next-button {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: white;
+            color: #242D50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #next-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        #version {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+
+        #loading {
+            display: none;
+            margin: 20px auto;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .final-message {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .final-message img {
+            width: 150px;
+            height: auto;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #exit-button, #retry-button {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: white;
+            color: #242D50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0 10px; /* Margem entre os botões */
+        }
+
+        #exit-button:hover, #retry-button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#" class="corner-button" id="minus">-</a>
+    <a href="#" class="corner-button" id="plus">+</a>
+    <a href="#" class="corner-button" id="multiply">×</a>
+    <div id="division-sign">÷</div>
+
+    <div id="oca">OCA</div>
+    <div id="response-message"></div>
+
+    <div id="questions-container">
+        <div id="question-text" class="question"></div>
+        <input type="number" id="user-answer" placeholder="Sua resposta">
+        <button id="next-button" onclick="nextQuestion()">Próxima</button>
+        <div id="loading"></div>
+    </div>
+
+    <div id="final-message" class="final-message">
+        <img id="final-image" src="" alt="Final Image">
+        <div id="final-text"></div>
+        <div class="button-container">
+            <button id="exit-button" onclick="exitGame()">Sair</button>
+            <button id="retry-button" style="display: none;" onclick="retryGame()">Tente novamente</button>
+        </div>
+    </div>
+
+    <div id="version">Versão: 0.1</div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const operation = urlParams.get('operation');
+
+        let currentQuestion = 0;
+        const questions = [];
+        const answers = [];
+        const totalQuestions = 10;
+
+        function generateQuestions() {
+            for (let i = 0; i < totalQuestions; i++) {
+                const num1 = Math.floor(Math.random() * 10) + 1;
+                const num2 = Math.floor(Math.random() * 10) + 1;
+                let questionText;
+                let correctAnswer;
+
+                switch (operation) {
+                    case 'adição':
+                        questionText = `${num1} + ${num2} = ?`;
+                        correctAnswer = num1 + num2;
+                        break;
+                    case 'subtração':
+                        questionText = `${num1} - ${num2} = ?`;
+                        correctAnswer = num1 - num2;
+                        break;
+                    case 'multiplicação':
+                        questionText = `${num1} × ${num2} = ?`;
+                        correctAnswer = num1 * num2;
+                        break;
+                    case 'divisão':
+                        questionText = `${num1 * num2} ÷ ${num2} = ?`;
+                        correctAnswer = num1;
+                        break;
+                    default:
+                        questionText = '';
+                }
+
+                questions.push(questionText);
+                answers.push(correctAnswer);
+            }
+        }
+
+        function nextQuestion() {
+            const userAnswer = parseInt(document.getElementById('user-answer').value);
+            const loading = document.getElementById('loading');
+
+            loading.style.display = 'block';
+            document.getElementById('questions-container').style.display = 'none';
+
+            // Verifica se a resposta do usuário está correta
+            if (userAnswer === answers[currentQuestion]) {
+                currentQuestion++;
+
+                if (currentQuestion < questions.length) {
+                    document.getElementById('question-text').innerText = questions[currentQuestion];
+                    document.getElementById('user-answer').value = '';
+                    loading.style.display = 'none';
+                    document.getElementById('questions-container').style.display = 'block';
+                } else {
+                    showFinalMessage(true); // Usuário acertou todas as questões
+                }
+            } else {
+                showFinalMessage(false); // Usuário errou uma questão
+            }
+        }
+
+        function showFinalMessage(isWinner) {
+            document.getElementById('questions-container').style.display = 'none';
+            const finalMessage = document.getElementById('final-message');
+            const finalImage = document.getElementById('final-image');
+            const finalText = document.getElementById('final-text');
+
+            if (isWinner) {
+                finalImage.src = "https://static.vecteezy.com/system/resources/previews/001/189/137/non_2x/christmas-decoration-falling-star-png.png"; // Imagem de vitória
+                finalText.innerText = "Parabéns! Você acertou todas as questões!";
+                document.getElementById('retry-button').style.display = 'none';
+            } else {
+                finalImage.src = "https://www.pngall.com/wp-content/uploads/15/Bill-Cipher-PNG-Photo.png"; // Imagem de erro
+                finalText.innerText = "Você errou uma questão!";
+                document.getElementById('retry-button').style.display = 'block';
+            }
+
+            finalMessage.style.display = 'block';
+        }
+
+        function exitGame() {
+            window.location.href = 'index.html'; // Redireciona para a página inicial
+        }
+
+        function retryGame() {
+            currentQuestion = 0;
+            document.getElementById('final-message').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+            generateQuestions();
+            document.getElementById('question-text').innerText = questions[currentQuestion];
+            document.getElementById('questions-container').style.display = 'block';
+        }
+
+        // Inicializa o jogo
+        generateQuestions();
+        document.getElementById('question-text').innerText = questions[currentQuestion];
+        document.getElementById('questions-container').style.display = 'block';
+    </script>
+
+</body>
+</html>

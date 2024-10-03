@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Matemática</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #242D50;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .corner-button {
+            position: absolute;
+            font-size: 100px;
+            color: white;
+            text-decoration: none;
+        }
+
+        #minus {
+            top: 10px;
+            left: 10px;
+        }
+
+        #plus {
+            top: 10px;
+            right: 10px;
+        }
+
+        #multiply {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        #division-sign {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 100px;
+            color: white;
+        }
+
+        /* Mensagem OCA no topo */
+        #oca {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        /* Mensagem central */
+        #question {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            text-align: center;
+        }
+
+        /* Botão Iniciar */
+        #start-button {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: white;
+            color: #242D50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #start-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Mensagem de versão no rodapé */
+        #version {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ícones de cantos -->
+    <a href="#" class="corner-button" id="minus">-</a>
+    <a href="#" class="corner-button" id="plus">+</a>
+    <a href="#" class="corner-button" id="multiply">×</a>
+    <div id="division-sign">÷</div>
+
+
+    <!-- Mensagem OCA no topo -->
+    <div id="oca">OCA</div>
+
+    <!-- Mensagem central e botão iniciar -->
+    <div id="question">Você entende de matemática?</div>
+    <button id="start-button" onclick="window.location.href='pagina2.html'">Iniciar</button>
+
+    <!-- Versão no rodapé -->
+    <div id="version">Versão: 0.1</div>
+
+</body>
+</html>

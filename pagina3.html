@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dificuldade em Operações</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #242D50;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .corner-button {
+            position: absolute;
+            font-size: 100px;
+            color: white;
+            text-decoration: none;
+        }
+
+        #minus {
+            top: 10px;
+            left: 10px;
+        }
+
+        #plus {
+            top: 10px;
+            right: 10px;
+        }
+
+        #multiply {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        #division-sign {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 100px;
+            color: white;
+        }
+
+        /* Mensagem OCA no topo */
+        #oca {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        /* Mensagem central */
+        #question {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            text-align: center;
+        }
+
+        /* Contêiner para botões */
+        #button-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        /* Botão de operação */
+        .operation-button {
+            display: inline-block; /* Alinha os botões em linha */
+            margin: 10px; /* Espaçamento entre os botões */
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: white;
+            color: #242D50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .operation-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Mensagem de versão no rodapé */
+        #version {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ícones de cantos -->
+    <a href="#" class="corner-button" id="minus">-</a>
+    <a href="#" class="corner-button" id="plus">+</a>
+    <a href="#" class="corner-button" id="multiply">×</a>
+    <div id="division-sign">÷</div>
+
+    <!-- Mensagem OCA no topo -->
+    <div id="oca">OCA</div>
+
+    <!-- Mensagem central -->
+    <div id="question">Em qual tipo de operação você tem mais dificuldade?</div>
+
+    <!-- Contêiner para botões -->
+    <div id="button-container">
+        <!-- Botões de operação com redirecionamento -->
+        <button class="operation-button" onclick="window.location.href='pagina4.html?operation=adição'">Adição</button>
+        <button class="operation-button" onclick="window.location.href='pagina4.html?operation=subtração'">Subtração</button>
+        <button class="operation-button" onclick="window.location.href='pagina4.html?operation=multiplicação'">Multiplicação</button>
+        <button class="operation-button" onclick="window.location.href='pagina4.html?operation=divisão'">Divisão</button>
+    </div>
+
+    <!-- Versão no rodapé -->
+    <div id="version">Versão: 0.1</div>
+
+</body>
+</html>
